@@ -1,0 +1,41 @@
+/* Styles globaux */
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Animation des cartes */
+.finance-card {
+    transition: all 0.3s ease;
+}
+
+/* Styles pour les montants */
+.amount-positive {
+    color: #10B981;
+}
+
+.amount-negative {
+    color: #EF4444;
+}
+
+/* Barres de progression */
+.progress-bar {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #E5E7EB;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    transition: width 0.6s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .hero-heading {
+        font-size: 2.5rem;
+    }
+}

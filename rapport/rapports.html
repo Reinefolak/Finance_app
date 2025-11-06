@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanciFolio - Rapports financiers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-pink-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i data-feather="dollar-sign" class="h-8 w-8 text-pink-600"></i>
+                        <span class="ml-2 text-xl font-bold text-pink-600">FinanciFolio</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Accueil</a>
+                    <a href="montant.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Montants</a>
+                    <a href="depenses.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Dépenses</a>
+                    <a href="achats.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Achats</a>
+                    <a href="rapports.html" class="text-pink-600 font-medium px-3 py-2">Rapports</a>
+                </div>
+                <div class="flex items-center">
+                    <button class="p-2 text-gray-600 hover:text-pink-600">
+                        <i data-feather="settings"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Rapports Financiers</h1>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md border border-pink-100">
+                <h2 class="text-xl font-semibold text-pink-600 mb-2">Rapport Hebdomadaire</h2>
+                <p class="text-sm text-gray-500 mb-3">Somme totale disponible à la fin de la semaine</p>
+                <p id="weeklyTotal" class="text-3xl font-bold text-gray-800">175 000 FCFA</p>
+                <div class="flex items-center mt-2">
+                    <i data-feather="trending-up" class="text-green-500 mr-1"></i>
+                    <span class="text-sm text-green-500">+8% par rapport à la semaine précédente</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md border border-purple-100">
+                <h2 class="text-xl font-semibold text-purple-600 mb-2">Rapport Mensuel</h2>
+                <p class="text-sm text-gray-500 mb-3">Somme totale disponible à la fin du mois</p>
+                <p id="monthlyTotal" class="text-3xl font-bold text-gray-800">600 000 FCFA</p>
+                <div class="flex items-center mt-2">
+                    <i data-feather="trending-up" class="text-green-500 mr-1"></i>
+                    <span class="text-sm text-green-500">+12% par rapport au mois dernier</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md border border-blue-100">
+                <h2 class="text-xl font-semibold text-blue-600 mb-2">Rapport Annuel</h2>
+                <p class="text-sm text-gray-500 mb-3">Somme totale disponible à la fin de l’année</p>
+                <p id="yearlyTotal" class="text-3xl font-bold text-gray-800">7 200 000 FCFA</p>
+                <div class="flex items-center mt-2">
+                    <i data-feather="trending-up" class="text-green-500 mr-1"></i>
+                    <span class="text-sm text-green-500">+25% par rapport à l’an dernier</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Report Table -->
+        <div class="mt-12 bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-gray-800">Détails des rapports</h2>
+                <button class="text-pink-600 hover:text-pink-800 text-sm font-medium flex items-center">
+                    <i data-feather="download" class="mr-1"></i> Exporter le rapport
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Période</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenus (Montants)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dépenses</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Achats</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Solde Final</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">Semaine 42</td>
+                            <td class="px-6 py-4 text-sm text-green-600 font-bold">200 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm text-red-600 font-bold">20 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm text-red-600 font-bold">5 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm font-bold text-gray-900">175 000 FCFA</td>
+                        </tr>
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">Octobre 2025</td>
+                            <td class="px-6 py-4 text-sm text-green-600 font-bold">650 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm text-red-600 font-bold">30 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm text-red-600 font-bold">20 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm font-bold text-gray-900">600 000 FCFA</td>
+                        </tr>
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">Année 2025</td>
+                            <td class="px-6 py-4 text-sm text-green-600 font-bold">8 000 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm text-red-600 font-bold">500 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm text-red-600 font-bold">300 000 FCFA</td>
+                            <td class="px-6 py-4 text-sm font-bold text-gray-900">7 200 000 FCFA</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->

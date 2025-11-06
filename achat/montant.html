@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanciFolio - Gestion des montants</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .fc-daygrid-day-number, .fc-col-header-cell-cushion {
+            color: #4b5563;
+            text-decoration: none;
+        }
+        .fc-event {
+            cursor: pointer;
+            border-radius: 0.375rem;
+        }
+        .amount-input {
+            transition: all 0.3s ease;
+        }
+        .amount-input:focus {
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-pink-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i data-feather="dollar-sign" class="h-8 w-8 text-pink-600"></i>
+                        <span class="ml-2 text-xl font-bold text-pink-600">FinanciFolio</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Accueil</a>
+                    <a href="montant.html" class="text-pink-600 font-medium px-3 py-2">Montants</a>
+                    <a href="depenses.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Dépenses</a>
+                    <a href="achats.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Achats</a>
+                    <a href="rapports.html" class="text-gray-600 hover:text-pink-600 px-3 py-2">Rapports</a>
+                </div>
+                <div class="flex items-center">
+                    <button class="p-2 text-gray-600 hover:text-pink-600">
+                        <i data-feather="settings"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Calendar Section -->
+            <div class="w-full md:w-2/3">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Calendrier des entrées</h2>
+                    <div id="calendar" class="w-full"></div>
+                </div>
+            </div>
+
+            <!-- Add Amount & Summary Section -->
+            <div class="w-full md:w-1/3 space-y-6">
+                <!-- Add Amount Form -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Ajouter un montant</h3>
+                    <form id="addAmountForm">
+                        <div class="mb-4">
+                            <label for="amountDate" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                            <input type="date" id="amountDate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-pink-500 focus:border-pink-500">
+                        </div>
+                        <div class="mb-4">
+                            <label for="amountValue" class="block text-sm font-medium text-gray-700 mb-1">Montant (FCFA)</label>
+                            <input type="number" id="amountValue" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 amount-input" placeholder="50000">
+                        </div>
+                        <div class="mb-4">
+                            <label for="amountSource" class="block text-sm font-medium text-gray-700 mb-1">Source</label>
+                            <select id="amountSource" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-pink-500 focus:border-pink-500">
+                                <option value="Salaire">Salaire</option>
+                                <option value="Business">Business</option>
+                                <option value="Cadeau">Cadeau</option>
+                                <option value="Prime">Prime</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="amountNotes" class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                            <textarea id="amountNotes" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-pink-500 focus:border-pink-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700 transition-colors flex items-center justify-center">
+                            <i data-feather="plus-circle" class="mr-2"></i> Enregistrer
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Résumé des montants</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-pink-50 rounded-lg border border-pink-100">
+                            <p class="text-sm text-pink-600 font-medium">Cette semaine</p>
+                            <p class="text-2xl font-bold text-gray-800">175 000 FCFA</p>
+                            <div class="flex items-center mt-1">
+                                <i data-feather="trending-up" class="text-green-500 mr-1"></i>
+                                <span class="text-sm text-green-500">+15% vs semaine dernière</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg border border-purple-100">
+                            <p class="text-sm text-purple-600 font-medium">Ce mois</p>
+                            <p class="text-2xl font-bold text-gray-800">600 000 FCFA</p>
+                            <div class="flex items-center mt-1">
+                                <i data-feather="trending-up" class="text-green-500 mr-1"></i>
+                                <span class="text-sm text-green-500">+12% vs mois dernier</span>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                            <p class="text-sm text-blue-600 font-medium">Cette année</p>
+                            <p class="text-2xl font-bold text-gray-800">7 200 000 FCFA</p>
+                            <div class="flex items-center mt-1">
+                                <i data-feather="trending-up" class="text-green-500 mr-1"></i>
+                                <span class="text-sm text-green-500">+25% vs année dernière</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Entries Table -->
+        <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Dernières entrées</h3>
+                <button class="text-pink-600 hover:text-pink-800 text-sm font-medium flex items-center">
+                    <i data-feather="download" class="mr-1"></i> Exporter
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15 juin 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Salaire</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">500 000 FCFA</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Salaire mensuel</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button class="text-pink-600 hover:text-pink-900 mr-3">
+                                    <i data-feather="edit-2" class="w-4 h-4"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i data-feather="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12 juin 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Business</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">75 000 FCFA</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Vente de produits</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button class="text-pink-600 hover:text-pink-900 mr-3">
+                                    <i data-feather="edit-2" class="w-4 h-4"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i data-feather="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10 juin 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Cadeau</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">25 000 FCFA</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Anniversaire</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button class="text-pink-600 hover:text-pink-900 mr-3">
+                                    <i data-feather="edit-2" class="w-4 h-4"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i data-feather="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-base text-gray-500">
+                &copy; 2023 FinanciFolio. Tous droits réservés.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/fr.min.js"></script>
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        // Initialize Calendar
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                },
+                events: [
+                    {
+                        title: '500 000 FCFA',
+                        start: '2023-06-15',
+                        backgroundColor: '#10B981',
+                        borderColor: '#10B981'
+                    },
+                    {
+                        title: '75 000 FCFA',
+                        start: '2023-06-12',
+                        backgroundColor: '#3B82F6',
+                        borderColor: '#3B82F6'
+                    },
+                    {
+                        title: '25 000 FCFA',
+                        start: '2023-06-10',
+                        backgroundColor: '#F59E0B',
+                        borderColor: '#F59E0B'
+                    }
+                ],
+                dateClick: function(info) {
+                    document.getElementById('amountDate').value = info.dateStr;
+                },
+                eventClick: function(info) {
+                    alert('Montant: ' + info.event.title + '\nDate: ' + info.event.start.toLocaleDateString());
+                }
+            });
+            calendar.render();
+
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('amountDate').value = today;
+
+            // Form submission
+            document.getElementById('addAmountForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const amountValue = document.getElementById('amountValue').value;
+                const amountDate = document.getElementById('amountDate').value;
+                const amountSource = document.getElementById('amountSource').value;
+                const amountNotes = document.getElementById('amountNotes').value;
+
+                if (!amountValue || !amountDate) {
+                    alert('Veuillez remplir tous les champs obligatoires');
+                    return;
+                }
+
+                // Add event to calendar
+                calendar.addEvent({
+                    title: amountValue + ' FCFA',
+                    start: amountDate,
+                    backgroundColor: sourceToColor(amountSource),
+                    borderColor: sourceToColor(amountSource)
+                });
+
+                // Reset form
+                this.reset();
+                document.getElementById('amountDate').value = today;
+
+                // Show success message
+                alert('Montant ajouté avec succès!');
+            });
+
+            function sourceToColor(source) {
+                switch(source) {
+                    case 'Salaire': return '#10B981';
+                    case 'Business': return '#3B82F6';
+                    case 'Cadeau': return '#F59E0B';
+                    case 'Prime': return '#8B5CF6';
+                    default: return '#EC4899';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

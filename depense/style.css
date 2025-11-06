@@ -1,0 +1,20 @@
+/* Styles partagés */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.calendar-day {
+    @apply text-center py-2 rounded-full cursor-pointer hover:bg-pink-100;
+}
+
+.calendar-day.selected {
+    @apply bg-pink-600 text-white;
+}
+
+.calendar-day.has-expense {
+    @apply bg-pink-300 text-white;
+}
+
+.finance-card {
+    @apply transition-all duration-300 ease-in-out;
+}
